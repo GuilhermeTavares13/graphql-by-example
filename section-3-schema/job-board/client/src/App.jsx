@@ -23,6 +23,23 @@ function App() {
     navigate('/');
   };
 
+  async function fetchGreeting() {
+    const response = await fetch('http://localhost:9000/graphql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query: 'query{greeting}',
+        })
+    });
+
+    const { data } = await response.json()
+    console.log(data.greeting);
+  }
+
+  fetchGreeting();
+
   return (
     <>
       <NavBar user={user} onLogout={handleLogout} />
