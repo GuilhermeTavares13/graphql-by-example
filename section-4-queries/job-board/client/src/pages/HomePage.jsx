@@ -1,45 +1,27 @@
+import { useEffect, useState } from 'react';
 import JobList from '../components/JobList';
-import { request, GraphQLClient } from 'graphql-request';
-
-// const fetchJobs = async () => {
-//   const response = await fetch('http://localhost:9000/graphql', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       query: `#graphql
-//           query{
-//             jobs {
-//               id
-//               title
-//               date
-//               company {
-//                 name
-//               }
-//             }
-//           }
-//         `
-//     })
-//   });
-//   const { data } = await response.json();
-//   console.log(data);
-//   return data;
-// }
-
-// const fetchedJobs = await fetchJobs();
-
-
-// const client = new GraphQLClient(endpoint, { headers: {} })
+import { getJobs } from '../lib/graphql/queries';
 
 function HomePage() {
+
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+
+    const allJobs = async () => {
+      const result = await getJobs();
+      setJobs(result);
+    }
+    
+    allJobs();
+  }, [])
 
   return (
     <div>
       <h1 className="title">
         Job Board
       </h1>
-      {/* <JobList jobs={fetchedJobs.jobs} /> */}
+      <JobList jobs={jobs} />
     </div>
   );
 }
