@@ -5,6 +5,7 @@ import express from 'express';
 import { authMiddleware, handleLogin } from './auth.js';
 import { readFile } from 'node:fs/promises';
 import { resolvers } from './resolvers.js';
+import { getUser } from './db/users.js';
 
 const PORT = 9000;
 
@@ -22,7 +23,7 @@ async function getContext({ req }) {
     const user = await getUser(req.auth.sub);
     return { user };
   }
-  return { auth: req.auth }
+  return {  };
 }
 
 await apolloServer.start();

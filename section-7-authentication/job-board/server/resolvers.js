@@ -35,15 +35,10 @@ export const resolvers = {
     },
     Mutation: {
         createJob: async (_root, { input: { title, description } }, { user }) => {
-
             if (!user) {
                 throw unathorizedError('Missing authentication!');
             }
-            console.log(user);
-            return null;
-            // const { companyId } = await getUser(auth.sub);
-            // console.log(companyId);
-            // return createJob({ companyId, title, description });
+            return createJob({ companyId: user.companyId, title, description });
         },
         deleteJob: (__root, args) => {
             return deleteJob(args.id);
