@@ -1,6 +1,7 @@
 import { getJobs, getJob, getJobsByCompany, createJob, deleteJob, updateJob } from "./db/jobs.js";
 import { getCompany } from "./db/companies.js";
 import { GraphQLError } from 'graphql';
+import { getUser } from "./db/users.js";
 
 export const resolvers = {
     Query: {
@@ -33,14 +34,21 @@ export const resolvers = {
         jobs: company => getJobsByCompany(company.id)
     },
     Mutation: {
-        createJob: (_root, { input: { title, description } }) => {
-            const companyId = 'FjcJCHJALA4i';
-            return createJob({ companyId, title, description });
+        createJob: async (_root, { input: { title, description } }, { user }) => {
+
+            if (!user) {
+                throw unathorizedError('Missing authentication!');
+            }
+            console.log(user);
+            return null;
+            // const { companyId } = await getUser(auth.sub);
+            // console.log(companyId);
+            // return createJob({ companyId, title, description });
         },
         deleteJob: (__root, args) => {
             return deleteJob(args.id);
         },
-        updateJob: (__root, {input: {id, title, description}}) => {
+        updateJob: (__root, { input: { id, title, description } }) => {
             return updateJob({ id, title, description });
         }
     }
@@ -48,6 +56,14 @@ export const resolvers = {
 
 function toIsoDate(value) {
     return value.slice(0, 'yyyy-mm-dd'.length);
+}
+
+function unathorizedError(message) {
+    return new GraphQLError(message, {
+        extensions: {
+            code: 'UNATHORIZED'
+        }
+    });
 }
 
 function notFoundError(message) {
