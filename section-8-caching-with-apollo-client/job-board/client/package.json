@@ -12,7 +12,6 @@
   "dependencies": {
     "@apollo/client": "^3.14.0",
     "bulma": "^1.0.3",
-    "graphql-request": "^7.4.0",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
