@@ -5,13 +5,14 @@ import { useJob } from '../lib/graphql/hooks';
 
 function JobPage() {
   const { jobId } = useParams();
-  const {job, error, loading} = useJob(jobId);
+  const { job, loading, error } = useJob(jobId);
 
+  console.log('[JobPage]', { job, loading, error });
   if (loading) {
     return <div>Loading...</div>;
   }
-  if  (error) {
-    return <div className='has-text-danger'>Data unavailable</div>
+  if (error) {
+    return <div className="has-text-danger">Data unavailable</div>;
   }
   return (
     <div>

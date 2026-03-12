@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { jobByIdQuery } from '../lib/graphql/queries';
 import { useCreateJob } from '../lib/graphql/hooks';
 
 function CreateJobPage() {
@@ -45,7 +44,8 @@ function CreateJobPage() {
           </div>
           <div className="field">
             <div className="control">
-              <button className="button is-link" onClick={handleSubmit} disabled={loading}>
+              <button className="button is-link" disabled={loading}
+                onClick={handleSubmit}>
                 Submit
               </button>
             </div>
